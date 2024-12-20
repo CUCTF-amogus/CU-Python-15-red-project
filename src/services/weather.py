@@ -3,6 +3,7 @@ import json
 from src.api.accuweather_api import AccuWeatherAPI
 
 
+
 class Weather:
     def __init__(self):
         self.cached_data = {}
@@ -14,7 +15,7 @@ class Weather:
     
     def load_cached_data(self, file_name: str):
         file_path = self.data_path + file_name
-        print(file_path)
+
         with open(file_path, 'r') as file:
             data: dict = json.load(file)
             # setting new value if it didn't exist before 
@@ -29,25 +30,24 @@ class Weather:
 
     def get_weather(self, city_name: str):
         city_name = city_name.lower().strip()
-        if city_name in self.cached_data.keys():
-            return self.cached_data[city_name]
+        # if city_name in self.cached_data.keys():
+        #     return self.cached_data[city_name]
         
         response_data = self.api.get_weather(city_name)
 
-        weather_data = {
-            "temperature": response_data["Temperature"]["Metric"]["Value"],
-            "wind": response_data["Wind"]["Speed"]["Metric"]["Value"],
-        }
+        response_data_temperature = response_data.get("DailyForecasts", [])
 
-        if 0 < weather_data["temperature"] < 35 and weather_data["wind"] < 30:
-            weather_data["text"] = f"Good weather - {response_data["WeatherText"]}"
-        else:
-            weather_data["text"] = f"Bad weather - {response_data["WeatherText"]}"
+        weather_5_days = []
+        for day in response_data_temperature:
+            weather_data = {
+                "temperature_max": day["Temperature"]["Minimum"]["Value"],
+                "temperature_min": day["Temperature"]["Maximum"]["Value"],
+                "date": day.get("Date"),
+            }
+            weather_data["temperature_avg"] = (weather_data["temperature_max"] + weather_data["temperature_min"]) / 2
+            weather_5_days.append(weather_data)
 
-        self.cached_data[city_name] = weather_data
+        self.cached_data[city_name] = weather_5_days
         self.write_cached_data("weather.json") # да я знаю что не надо много вызывать запись в файл, но у нас тут кол-во запросов ограничено так что мне лень придумывать систему лучше
 
-        return weather_data
-
-
-weather = Weather()
+        return weather_5_days
