@@ -14,9 +14,11 @@ app_layout = html.Div(
             ],
         ),
         html.Button("Добавить новый город", id="add-location-btn", n_clicks=0),
-        # remove city button
         html.Button("Удалить город", id="delete-location-btn", n_clicks=0),
-        html.Button("Получить данные о погоде", id="fetch-weather-btn", n_clicks=0),
+        html.Button("Получить данные о погоде на день", id="fetch-weather-btn", n_clicks=0, value="1212121"),
+        html.Button("Получить данные о погоде на 5 дней", id="fetch-weather-btn-5", n_clicks=0),
+        html.Button("Получить данные о погоде на 10 дней", id="fetch-weather-btn-10", n_clicks=0),
+        html.Button("Получить данные о погоде на 15 дней", id="fetch-weather-btn-15", n_clicks=0),
         dcc.Graph(id="weather-chart"),
         html.Div(id="error-display", style={"color": "red"}),
     ]

@@ -37,7 +37,7 @@ class Weather:
 
         response_data_temperature = response_data.get("DailyForecasts", [])
 
-        weather_5_days = []
+        weather_days = []
         for day in response_data_temperature:
             weather_data = {
                 "temperature_max": day["Temperature"]["Minimum"]["Value"],
@@ -45,9 +45,9 @@ class Weather:
                 "date": day.get("Date"),
             }
             weather_data["temperature_avg"] = (weather_data["temperature_max"] + weather_data["temperature_min"]) / 2
-            weather_5_days.append(weather_data)
+            weather_days.append(weather_data)
 
-        self.cached_data[city_name] = weather_5_days
+        self.cached_data[city_name] = weather_days
         self.write_cached_data("weather.json") # да я знаю что не надо много вызывать запись в файл, но у нас тут кол-во запросов ограничено так что мне лень придумывать систему лучше
 
-        return weather_5_days
+        return weather_days

@@ -49,7 +49,7 @@ def update_chart(n_clicks, location_inputs):
     if n_clicks <= 0:
         return go.Figure(), ""
 
-    dfs = []
+    dataFrames = []
     error_messages = []
     location_names = []
     for input_component in location_inputs:
@@ -67,11 +67,11 @@ def update_chart(n_clicks, location_inputs):
             error_messages.append(f"Ошибка для города '{location_name}': {e}")
             continue
 
-        dfs.append(pd.DataFrame(from_location_weathers))
+        dataFrames.append(pd.DataFrame(from_location_weathers))
 
     fig = go.Figure()
 
-    for i, (df, location) in enumerate(zip(dfs, location_names)):
+    for i, (df, location) in enumerate(zip(dataFrames, location_names)):
         color = colors[i % len(colors)]
         fig.add_trace(
             render_html.create_line_chart(
