@@ -12,7 +12,7 @@
 
 1) You can clone this repository to your local machine with command ```git clone https://github.com/CUCTF-amogus/CU-Python-15-red-project.git```
 2) Install packages from requirements.txt using command ```pip install -r requirements.txt```
-3) Create a copy of .env.pub, name it .env and write here your bot token and api token
+3) Create a copy of .env.dist, name it .env and write here your AccuWeather api token
 4) Start app (app.py) using command ```python app.py```
 
 ### API
